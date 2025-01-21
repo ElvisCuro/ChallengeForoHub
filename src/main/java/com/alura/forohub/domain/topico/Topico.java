@@ -1,11 +1,20 @@
 package com.alura.forohub.domain.topico;
 
+import com.alura.forohub.domain.usuarios.Usuario;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
 
 @Table(name = "topicos")
 @Entity(name = "topicos")
+@Getter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(of = "id")
 public class Topico {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,5 +25,18 @@ public class Topico {
     private Boolean status;
     @Enumerated(EnumType.STRING)
     private Curso curso;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "autor_id", nullable = false)
+    private Usuario autor;
+
+    public Topico(DatosRegistroTopico datosRegistroTopico, Usuario usuario) {
+        this.titulo = datosRegistroTopico.titulo();
+        this.mensaje = datosRegistroTopico.mensaje();
+        this.curso = datosRegistroTopico.curso();
+        this.fechaDeCreacion = LocalDate.now();
+        this.status = true;
+        this.autor = usuario;
+    }
 
 }
