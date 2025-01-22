@@ -38,5 +38,19 @@ public class Topico {
         this.status = true;
         this.autor = usuario;
     }
+    public void actualizarTopico(DatosActualizarTopico datosActualizarTopico) {
+        if (datosActualizarTopico.titulo() != null) {
+            this.titulo = datosActualizarTopico.titulo();
+        }
+        if (datosActualizarTopico.mensaje() != null) {
+            this.mensaje = datosActualizarTopico.mensaje();
+        }
+        if (datosActualizarTopico.curso() != null) {
+            this.curso = datosActualizarTopico.curso();
+        }
+        this.fechaDeCreacion = LocalDate.now();
+
+
+    }
 
 }
