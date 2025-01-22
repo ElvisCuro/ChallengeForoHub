@@ -28,8 +28,27 @@ public class TopicoController {
     private TopicoRepository topicoRepository;
 
     @PostMapping
-    public void registrarTopicos(@RequestBody DatosRegistroTopico datosRegistroTopico){
-        System.out.println(datosRegistroTopico);
+    public ResponseEntity<DatosRespuestaTopico> crearNuevoTopico(
+            @RequestBody @Valid DatosRegistroTopico datosRegistroTopico,
+            UriComponentsBuilder uriComponentsBuilder) {
+        // Busca al autor por su id
+        Usuario usuario = usuarioRepository.findById(datosRegistroTopico.idAutor())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No existe un autor con el id especificado"));
+
+        // Crea el tópico con el autor encontrado
+        Topico topico = topicoRepository.save(new Topico(datosRegistroTopico, usuario));
+
+        DatosRespuestaTopico datosRespuestaTopico = new DatosRespuestaTopico(
+                topico.getId(),
+                topico.getAutor().getNombre(),
+                topico.getTitulo(),
+                topico.getMensaje(),
+                topico.getCurso(),
+                topico.getFechaDeCreacion()
+        );
+
+        URI url = uriComponentsBuilder.path("topicos/{id}").buildAndExpand(topico.getId()).toUri();
+        return ResponseEntity.created(url).body(datosRespuestaTopico);
     }
 
     @GetMapping
