@@ -23,10 +23,10 @@
 
 ## 📖 Endpoints destacados
 
-- ➕ **POST** `/auth/register`: Registro de un usuario.
-- 👁️ **GET** `/usuarios`: Listar usuarios.
+- ➕ **POST** `/auth/login`: Login de un usuario.
+- 👁️ **GET** `/topicos`: Listar topicos.
 - ✏️ **PUT** `/topicos/{id}`: Actualizar un tópico.
-- ❌ **DELETE** `/usuarios/{id}`: Eliminar un usuario.
+- ❌ **DELETE** `/topicos/{id}`: Eliminar un topico.
 
 ---
 
