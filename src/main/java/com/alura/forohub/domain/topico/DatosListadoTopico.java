@@ -16,7 +16,7 @@ public record DatosListadoTopico(Long id,
                 topico.getMensaje(),
                 topico.getFechaDeCreacion(),
                 topico.getStatus(),
-                topico.getAutor(),
+                topico.getAutor().getNombre(),
                 topico.getCurso().toString());
     }
 

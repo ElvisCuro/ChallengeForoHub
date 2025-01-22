@@ -15,10 +15,8 @@ import java.time.ZoneOffset;
 
 @Service
 public class TokenService {
-
     @Value("${api.security.secret}")
     private String apiSecret;
-
     public String generarToken(Usuario usuario) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(apiSecret);
@@ -32,15 +30,12 @@ public class TokenService {
             throw new RuntimeException();
         }
     }
-
     public String getSubject(String token) {
         DecodedJWT verifier = null;
         try {
-            Algorithm algorithm = Algorithm.HMAC256(apiSecret); // Validando la firma
+            Algorithm algorithm = Algorithm.HMAC256(apiSecret);
             verifier = JWT.require(algorithm)
-                    // specify any specific claim validations
                     .withIssuer("foro-hub")
-                    // reusable verifier instance
                     .build()
                     .verify(token);
             verifier.getSubject();
@@ -52,7 +47,6 @@ public class TokenService {
         }
         return verifier.getSubject();
     }
-
     public Instant generarFechaExpiracion() {
         return LocalDateTime.now().plusHours(2).toInstant(ZoneOffset.of("-05:00"));
     }

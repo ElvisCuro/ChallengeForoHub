@@ -4,7 +4,6 @@ import com.alura.forohub.domain.usuarios.DatosAutenticacionUsuario;
 import com.alura.forohub.domain.usuarios.Usuario;
 import com.alura.forohub.domain.usuarios.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -12,16 +11,16 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
-public class AutenticacionService implements UserDetailsService { // me dice que no implemento el metodo
+public class AutenticacionService implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder; // Inyectamos el PasswordEncoder
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private TokenService tokenService; // Inyectamos el servicio de token
+    private TokenService tokenService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

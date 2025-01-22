@@ -42,7 +42,7 @@ public class TopicoController {
                 topico.getAutor().getNombre(),
                 topico.getTitulo(),
                 topico.getMensaje(),
-                topico.getCurso(),
+                topico.getCurso().toString(),
                 topico.getFechaDeCreacion()
         );
 
@@ -62,7 +62,7 @@ public class TopicoController {
                 topico.getAutor().getNombre(),
                 topico.getTitulo(),
                 topico.getMensaje(),
-                topico.getCurso(),
+                topico.getCurso().toString(),
                 topico.getFechaDeCreacion()
         );
         URI url = uriComponentsBuilder.path("topicos/{id}").buildAndExpand(topico.getId()).toUri();
@@ -91,7 +91,7 @@ public class TopicoController {
                     topico.getAutor().getNombre(),
                     topico.getTitulo(),
                     topico.getMensaje(),
-                    topico.getCurso(),
+                    topico.getCurso().toString(),
                     topico.getFechaDeCreacion()));
     }
 
