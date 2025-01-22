@@ -51,9 +51,9 @@ public class TopicoController {
         return ResponseEntity.created(url).body(datosRespuestaTopico);
     }
 
-    @GetMapping
-    public Page<DatosListadoTopico> listadoMedicos(@PageableDefault(size = 10) Pageable paginacion) {
-      return topicoRepository.findByStatusTrue(paginacion).map(DatosListadoTopico::new);
+    @GetMapping()
+    public ResponseEntity<Page<DatosListadoTopico>> listadoTopicos(@PageableDefault(size = 2) Pageable paginacion) {
+        return ResponseEntity.ok(topicoRepository.findByStatusTrue(paginacion).map(DatosListadoTopico::new));
     }
 
     //DELETE LOGICO
@@ -82,5 +82,20 @@ public class TopicoController {
                     topico.getMensaje(),
                     topico.getCurso(),
                     topico.getFechaDeCreacion()));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<DatosRespuestaTopico> mostrarUnTopicoPorId(@PathVariable Long id) {
+        Topico topico = topicoRepository.getReferenceById(id);
+        var datosTopico = new DatosRespuestaTopico(
+                topico.getId(),
+                topico.getAutor().getNombre(),
+                topico.getTitulo(),
+                topico.getMensaje(),
+                topico.getCurso(),
+                topico.getFechaDeCreacion()
+        );
+
+        return ResponseEntity.ok(datosTopico);
     }
 }
