@@ -18,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/topicos")
@@ -33,20 +34,34 @@ public class TopicoController {
 
     @GetMapping
     public Page<DatosListadoTopico> listadoMedicos(@PageableDefault(size = 10) Pageable paginacion) {
-        return topicoRepository.findAll(paginacion).map(DatosListadoTopico::new);
-       // return topicoRepository.findByActivoTrue(paginacion).map(DatosListadoTopico::new);
+      return topicoRepository.findByStatusTrue(paginacion).map(DatosListadoTopico::new);
     }
 
-
-
+    //DELETE LOGICO
     @DeleteMapping("/{id}")
     @Transactional
-    public void eliminarTopico(@PathVariable Long id){
+    public ResponseEntity eliminarTopico(@PathVariable Long id){
         Topico topico = topicoRepository.getReferenceById(id);
-        topicoRepository.delete(topico);
+        topico.eliminarTopico();
+        return ResponseEntity.noContent().build();
 
     }
 
+    @PutMapping
+    @Transactional
+    public ResponseEntity actualizarTopico(@RequestBody @Valid DatosActualizarTopico datosActualizarTopico) {
 
+            // Verifica si el tópico existe y está activo
+            Topico topico = topicoRepository.getReferenceById(datosActualizarTopico.id());
 
+            // Actualiza el tópico
+            topico.actualizarTopico(datosActualizarTopico);
+
+            return ResponseEntity.ok(new DatosRespuestaTopico(topico.getId(),
+                    topico.getAutor().getNombre(),
+                    topico.getTitulo(),
+                    topico.getMensaje(),
+                    topico.getCurso(),
+                    topico.getFechaDeCreacion()));
+    }
 }

@@ -49,8 +49,9 @@ public class Topico {
             this.curso = datosActualizarTopico.curso();
         }
         this.fechaDeCreacion = LocalDate.now();
-
-
+    }
+    public void eliminarTopico() {
+        this.status = false;
     }
 
 }
