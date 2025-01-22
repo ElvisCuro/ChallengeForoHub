@@ -3,12 +3,14 @@ package com.alura.forohub.controller;
 
 import com.alura.forohub.domain.topico.*;
 import com.alura.forohub.domain.usuarios.Usuario;
+import com.alura.forohub.domain.usuarios.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.support.SimpleJpaRepository;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -27,9 +29,11 @@ public class TopicoController {
     @Autowired
     private TopicoRepository topicoRepository;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
     @PostMapping
-    public ResponseEntity<DatosRespuestaTopico> crearNuevoTopico(
-            @RequestBody @Valid DatosRegistroTopico datosRegistroTopico,
+    public ResponseEntity<DatosRespuestaTopico> crearNuevoTopico(@RequestBody @Valid DatosRegistroTopico datosRegistroTopico,
             UriComponentsBuilder uriComponentsBuilder) {
         // Busca al autor por su id
         Usuario usuario = usuarioRepository.findById(datosRegistroTopico.idAutor())
